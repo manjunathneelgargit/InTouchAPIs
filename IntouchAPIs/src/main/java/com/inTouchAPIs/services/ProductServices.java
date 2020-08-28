@@ -47,17 +47,47 @@ public class ProductServices
 	//Delete By id
 	public String deleteProductById(int id)
 	{
-		repository.deleteById(id);
-		return "Product with ID : \""+id+"\" is deleted successfully...!";
+		String msg = "";
+		try
+		{
+			repository.deleteById(id);
+			msg = "Product with ID : \""+id+"\" is deleted successfully.";
+		}
+		catch (Exception e) 
+		{
+			msg = "Product with ID : \""+id+"\" does not Exists.";
+		}
+		return msg;
 	}
 	
 	//Update product
+	//We have to manually create this logic because, this logic is not provided in inbuilt classes
 	public Product updateProduct(Product product)
 	{
 		Product existingProduct = repository.findById(product.getProdID()).orElse(null);
 		existingProduct.setProdNAME(product.getProdNAME());
 		existingProduct.setProdPRICE(product.getProdPRICE());
 		existingProduct.setProdQTY(product.getProdQTY());
+		return repository.save(existingProduct);	
+	}
+	
+	//UpdateProductById
+	public Product updateProductById(Product product,int id)
+	{
+		Product existingProduct = repository.findById(id).orElse(null);
+		if(product.getProdNAME()!=null)
+		{
+			existingProduct.setProdNAME(product.getProdNAME());
+		}
+		if(product.getProdPRICE()!=0) 
+		{
+			existingProduct.setProdPRICE(product.getProdPRICE());
+		}
+		if(product.getProdQTY()!=0) 
+		{
+			existingProduct.setProdQTY(product.getProdQTY());
+		}
+		
 		return repository.save(existingProduct);	
 	}
 }

@@ -69,7 +69,4 @@ public class Product
 	{
 		this.prodPRICE = prodPRICE;
 	}
-	
-	
-	
 }
